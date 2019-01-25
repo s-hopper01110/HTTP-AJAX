@@ -9,7 +9,7 @@ function FriendForm(props) {
             <h1>Friends:</h1>
 
         <input className="name"
-            // value={props.newFriend.name}
+            value={props.newFriend.name}
             type="text"
             name="name"
             placeholder="Name"
@@ -18,7 +18,7 @@ function FriendForm(props) {
         />
 
         <input className="age"
-            // value={props.newFriend.age}
+            value={props.newFriend.age}
             type="text"
             name="age"
             placeholder="age"
@@ -28,7 +28,7 @@ function FriendForm(props) {
 
 
         <input className="email"
-            // value={props.newFriend.email}
+            value={props.newFriend.email}
             type="text"
             name="email"
             placeholder="email"

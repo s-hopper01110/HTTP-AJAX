@@ -6,7 +6,11 @@ function FriendList(props) {
     return (
         <div>
         {props.friends.map( friend => {
-            return <Friends friend={friend} />
+            return <Friends key={friend.id} friend={friend} 
+            deleteFriend={props.deleteFriend}
+            updateFriend={props.updateFriend}
+            populateForm={props.populateForm} 
+            />
 
         })}
 

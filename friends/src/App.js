@@ -35,7 +35,7 @@ componentDidMount() {
 }
 
 addNewFriend = () => {
-  axios.post('http://localhost:5000/friends', this.state.newFriend)
+  axios.post(`http://localhost:5000/friends`, this.state.newFriend)
 
   .then(res => {
     this.setState({ friends: res.data})
@@ -48,7 +48,8 @@ addNewFriend = () => {
 
 deleteFriend = (e, id) => {
   e.preventDefault();
-  axios.delete('http://localhost:5000/friends/:id')
+  axios
+  .delete(`http://localhost:5000/friends/${id}`)
   .then(res => {
     this.setState({ friends: res.data})
   })
@@ -58,6 +59,36 @@ deleteFriend = (e, id) => {
    
 }
 
+updateFriend = () => {
+  axios
+  .put(`http://localhost:5000/friends/${this.state.newFriend.id}`,this.state.newFriend)
+  .then(res => {
+    this.setState({
+      friends: res.data,
+      isUpdating: false,
+      newFriend: {
+        name: '',
+        age: '',
+        email: ''
+      }
+    })
+    this.props.history.push('/')
+  })
+  .catch(err => {
+    console.log(err);
+  })
+}
+
+
+
+populateForm = (e, id) => {
+  e.preventDefault();
+  this.setState({
+    newFriend: this.state.friends.find(update => update.id === id),
+    isUpdating: true
+  })
+  // this.props.history.push('/friend-form')
+}
 
 
 handleChanges = e => {
@@ -84,6 +115,7 @@ render() {
       <div className="friendLinks">
       <Link to= '/'> Friends </Link>
       <Link to= '/friend-infoInput' > Add Friends </Link>
+      <Link to= '/friend-form'> {this.state.isUpdating ? 'Update' : ''} Update</Link>
       </div>
 
       <Route path="/friend-infoInput" render={props =>
@@ -91,12 +123,17 @@ render() {
       addNewFriend={this.addNewFriend}
       newFriend={this.state.newFriend}
       handleChanges={this.handleChanges}
+      isUpdating={this.isUpdating}
+      updateFriend={this.updateFriend}
       /> } />
 
       <Route exact path='/' render={props => <FriendList {...props}
-      friends={this.state.friends} /> } 
+      friends={this.state.friends}  
       deleteFriend={this.deleteFriend}
-      />
+      populateForm={this.populateForm}
+      /> } />
+
+     
 
       </div>
     );
