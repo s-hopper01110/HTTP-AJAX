@@ -38,11 +38,24 @@ addNewFriend = () => {
   axios.post('http://localhost:5000/friends', this.state.newFriend)
 
   .then(res => {
-    this.setState({ FriendList: res.data})
+    this.setState({ friends: res.data})
     this.props.history.push('/') 
     })
 
     .catch(err => console.log(err))
+}
+
+
+deleteFriend = (e, id) => {
+  e.preventDefault();
+  axios.delete('http://localhost:5000/friends/:id')
+  .then(res => {
+    this.setState({ friends: res.data})
+  })
+  .catch(err => {
+    console.log(err)
+  })
+   
 }
 
 
@@ -81,7 +94,9 @@ render() {
       /> } />
 
       <Route exact path='/' render={props => <FriendList {...props}
-      friends={this.state.friends} /> } />
+      friends={this.state.friends} /> } 
+      deleteFriend={this.deleteFriend}
+      />
 
       </div>
     );
